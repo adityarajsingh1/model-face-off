@@ -20,6 +20,7 @@ from rich.panel import Panel
 from rich.table import Table
 
 import models
+from judge import judge
 
 console = Console()
 
@@ -72,6 +73,9 @@ def main():
     parser.add_argument("--system", default="You are a helpful assistant. Keep answers fairly short.",
                         help="system prompt given to every model")
     parser.add_argument("--save", action="store_true", help="also save the results to a markdown file")
+    parser.add_argument("--judge", action="store_true", help="have a model pick the best answer")
+    parser.add_argument("--judge-with", choices=models.ASK.keys(),
+                        help="which model judges (default: claude if you have a key for it)")
     args = parser.parse_args()
 
     prompt = args.prompt or console.input("[bold]prompt >[/bold] ").strip()
@@ -92,6 +96,16 @@ def main():
             results = list(pool.map(lambda n: models.run(n, prompt, args.system), names))
 
     show(results)
+
+    if args.judge or args.judge_with:
+        available = models.available()
+        judge_name = args.judge_with or ("claude" if "claude" in available else available[0])
+        with console.status(f"{judge_name} is judging..."):
+            winner, reason = judge(prompt, results, judge_name)
+        if winner:
+            console.print(f"\n🏆 [bold]{judge_name}[/bold] picks [bold green]{winner}[/bold green]: {reason}")
+        else:
+            console.print(f"\n[yellow]no verdict: {reason}[/yellow]")
 
     if args.save:
         console.print(f"saved to {save(prompt, results)}")
