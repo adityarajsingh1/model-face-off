@@ -10,6 +10,7 @@ I kept switching between three browser tabs to compare models, so I wrote this t
 - shows the answers in columns next to each other
 - prints a little scoreboard: response time, tokens in/out, word count (the fastest one gets a ⚡)
 - skips any provider you don't have an API key for, so it works even with just one or two
+- `--judge` lets one model play referee and pick the best answer. The answers are shuffled and anonymised first, so it can't just vote for itself
 - `--save` dumps everything to a markdown file if you want to keep it
 
 ## Setup
@@ -43,6 +44,10 @@ python faceoff.py --only claude gemini "write a haiku about rain"
 # same system prompt for everyone
 python faceoff.py --system "Answer like a pirate." "what is an API?"
 
+# let claude (or any of them) pick a winner
+python faceoff.py --judge "why is the sky blue?"
+python faceoff.py --judge-with gemini "explain big-O notation"
+
 # keep the results
 python faceoff.py --save "what's the difference between a list and a tuple in python?"
 ```
@@ -59,7 +64,7 @@ Want a different model? Set `CLAUDE_MODEL`, `OPENAI_MODEL` or `GEMINI_MODEL` (se
 ## Ideas for later
 
 - [ ] estimate cost per answer
-- [ ] let a model judge the answers and pick a winner
+- [x] let a model judge the answers and pick a winner
 - [ ] run a whole list of prompts from a file and keep a running score
 - [ ] add a local model through Ollama
 - [ ] a simple web version with Streamlit
