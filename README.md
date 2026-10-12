@@ -54,6 +54,18 @@ python faceoff.py --save "what's the difference between a list and a tuple in py
 
 You can also run it with no prompt and it'll ask you for one.
 
+### A whole list of prompts
+
+One question doesn't tell you much, so you can give it a file with one prompt per line (`#` lines are skipped). There's a `prompts.txt` with a few I like to start with:
+
+```bash
+python faceoff.py --file prompts.txt --judge --save
+```
+
+It runs them one after another and at the end prints an overall table: how many times each model won (if `--judge` is on), how often it was the fastest, and how often it failed. `--save` puts every round in one markdown file.
+
+Tests: `python -m pytest tests`.
+
 Want a different model? Set `CLAUDE_MODEL`, `OPENAI_MODEL` or `GEMINI_MODEL` (see `.env.example`).
 
 ## How it works
@@ -65,6 +77,6 @@ Want a different model? Set `CLAUDE_MODEL`, `OPENAI_MODEL` or `GEMINI_MODEL` (se
 
 - [ ] estimate cost per answer
 - [x] let a model judge the answers and pick a winner
-- [ ] run a whole list of prompts from a file and keep a running score
+- [x] run a whole list of prompts from a file and keep a running score
 - [ ] add a local model through Ollama
 - [ ] a simple web version with Streamlit
