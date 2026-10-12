@@ -1,0 +1,6 @@
+# a few prompts I like to compare models on. one per line, # lines are skipped
+explain recursion to someone who has never programmed
+write a haiku about a train running late
+what's the difference between a list and a tuple in python?
+a bat and a ball cost 1.10 in total. the bat costs 1.00 more than the ball. how much is the ball?
+give me three name ideas for a small coffee shop next to a bookstore
